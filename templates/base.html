@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Free Market{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Parte 1: Buscador y Login -->
+    <header class="top-header">
+        <a href="{{ url_for('home') }}" class="logo-container">
+            <svg width="35" height="35" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10,90 L10,20 L50,60 L90,20 L90,90" fill="none" stroke="#9C27B0" stroke-width="12" stroke-linejoin="round"/>
+                <path d="M35,15 L75,15" fill="none" stroke="#FFC107" stroke-width="10" stroke-linecap="round"/>
+                <path d="M35,15 L35,85" fill="none" stroke="#FFC107" stroke-width="10" stroke-linecap="round"/>
+                <path d="M35,50 L65,50" fill="none" stroke="#FFC107" stroke-width="10" stroke-linecap="round"/>
+            </svg>
+            <span>FREE MARKET</span>
+        </a>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar productos, marcas y más...">
+            <button>🔍</button>
+        </div>
+
+        <div class="auth-links">
+            {% if session.get('usuario_id') %}
+                <span style="color: var(--text-muted);">Hola, <strong style="color: white;">{{ session.get('nombre') }}</strong></span>
+                <a href="{{ url_for('logout') }}" class="btn-outline">Salir</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn-outline">Iniciar Sesión</a>
+                <a href="{{ url_for('registro') }}" class="btn-solid">Regístrate</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Parte 2: Barra de Categorías -->
+    <nav class="nav-categories">
+        <a href="#">Computadores Armados</a>
+        <a href="#">Monitores</a>
+        <a href="#">Componentes/Hardware</a>
+        <a href="#">Periféricos</a>
+        <a href="#">Ofertas</a>
+    </nav>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages" style="max-width: 600px; margin: 20px auto;">
+                    {% for category, message in messages %}
+                        <div style="padding: 15px; border-radius: 4px; text-align: center; margin-bottom: 10px; background-color: {% if category == 'error' %}#4a0000{% else %}#003314{% endif %}; border: 1px solid {% if category == 'error' %}#ff4d4d{% else %}#00cc44{% endif %};">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Free Market{% endblock %}
+
+{% block content %}
+<!-- El pequeño rectángulo con el texto original -->
+<div class="hero-banner">
+    <h2>LO MEJOR EN <span class="highlight">TECNOLOGÍA</span></h2>
+    <p>Al alcance de un clic</p>
+</div>
+
+<h3 class="section-title">Productos Destacados</h3>
+<div class="productos-grid">
+    {% for producto in productos %}
+    <div class="producto-card">
+        <img src="{{ producto.imagen }}" alt="{{ producto.titulo }}">
+        <div class="producto-info">
+            <h4>{{ producto.titulo }}</h4>
+            <div class="precio-row">
+                <span class="precio">{{ producto.precio }}</span>
+                <!-- Etiqueta de descuento estilo Nuevatec -->
+                <span class="descuento-badge">-18%</span>
+            </div>
+            <p class="pago-efectivo">Pago con transferencia o efectivo</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
